@@ -2,13 +2,26 @@ let questions = [];
 let currentQuestionIndex = 0;
 let currentCategory = "SN";
 let shuffledQuestions = [];
-let score = 0; 
+let correctAnswersCount = 0;
+let incorrectAnswersCount = 0;
 
 function fetchQuestions() {
     fetch('./questions.json')
     .then(response => response.json())
     .then(data => {
         questions = data;
+
+        // Ask for number of questions for each category
+        let snCount = questions.filter(q => q.category && q.category.code === "SN").length;
+        let sfCount = questions.filter(q => q.category && q.category.code === "SF").length;
+        let snChoice = parseInt(prompt(`Enter the count of questions from Signs Category out of ${snCount} questions`));
+        let sfChoice = parseInt(prompt(`Enter the count of questions from SF Category out of ${sfCount} questions`));
+
+        questions = questions.filter(q => 
+            (q.category.code === "SN" && snChoice-- > 0) ||
+            (q.category.code === "SF" && sfChoice-- > 0)
+        );
+
         startQuiz();
     })
     .catch(error => {
@@ -18,16 +31,9 @@ function fetchQuestions() {
 
 function startQuiz() {
     const categoryQuestions = questions.filter(q => q.category && q.category.code === currentCategory);
-
     shuffledQuestions = categoryQuestions.sort(() => 0.5 - Math.random());
-
-    if (shuffledQuestions[currentQuestionIndex]) {
-        loadQuestion(shuffledQuestions[currentQuestionIndex]);
-    } else {
-        console.error('No questions available for this category or index out of bounds.');
-    }
+    loadQuestion(shuffledQuestions[currentQuestionIndex]);
 }
-
 function loadQuestion(question) {
     document.getElementById('question-text').innerText = question.question;
     const answersDiv = document.getElementById('answers');
@@ -74,13 +80,16 @@ function checkAnswer() {
     const correctAnswerText = currentQuestion.answers.find(answer => answer.value === currentQuestion.correctAnswer).text;
 
     if (selectedValue === currentQuestion.correctAnswer) {
-        score++;  
+        correctAnswersCount++;
         feedbackDiv.innerHTML = `<span style="color:green">${selectedAnswer.innerText}</span><br>${currentQuestion.feedback}`;
+        selectedAnswer.style.backgroundColor = "lightgreen";
     } else {
+        incorrectAnswersCount++;
         feedbackDiv.innerHTML = `<span style="color:red">${selectedAnswer.innerText}</span><br><span style="color:green">${correctAnswerText}</span><br>${currentQuestion.feedback}`;
+        selectedAnswer.style.backgroundColor = "lightred";
     }
 
-    document.getElementById('score').innerText = "Score: " + score;
+    document.getElementById('score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}, Remaining: ${shuffledQuestions.length - (currentQuestionIndex + 1)}`;
     document.getElementById('submit-btn').style.display = 'none';
     document.getElementById('next-btn').style.display = 'block';
 }
