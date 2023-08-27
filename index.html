@@ -68,6 +68,20 @@
 <body>
     <div id="score">Score: 0</div>
     <h1>Virginia DMV Practice Exam</h1>
+    <!-- Category Question Count Input -->
+    <div id="category-selection">
+        <label>
+            Signs Category:
+            <input type="number" id="sn-count-input" placeholder="Number of questions">
+            Available: <span id="available-sn">0</span>
+        </label>
+        <label>
+            Safety Category:
+            <input type="number" id="sf-count-input" placeholder="Number of questions">
+            Available: <span id="available-sf">0</span>
+        </label>
+        <button onclick="startQuizWithSelection()">Start Quiz</button>
+    </div>
     <div id="question-container">
         <img id="question-image" src="" alt="Question Image" width="300" style="display: none;">
         <h2 id="question-text"></h2>
