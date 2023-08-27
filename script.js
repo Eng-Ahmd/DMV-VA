@@ -23,13 +23,8 @@ function fetchQuestions() {
 }
 
 function startQuizWithSelection() {
-    let snChoice = parseInt(document.getElementById('sn-choice').value) || 0;
-    let sfChoice = parseInt(document.getElementById('sf-choice').value) || 0;
-
-    if (!snChoice && !sfChoice) {
-        alert("Please enter the count of questions for at least one category.");
-        return;
-    }
+    let snChoice = parseInt(document.getElementById('sn-count-input').value) || 0;
+    let sfChoice = parseInt(document.getElementById('sf-count-input').value) || 0;
 
     let snQuestions = questions.filter(q => q.category.code === "SN").slice(0, snChoice);
     let sfQuestions = questions.filter(q => q.category.code === "SF").slice(0, sfChoice);
