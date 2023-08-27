@@ -7,6 +7,16 @@ let correctAnswersCount = 0;
 let incorrectAnswersCount = 0;
 let totalQuestions = 0;
 
+
+function shuffleArray(array) {
+    let shuffled = array.slice();  // create a copy of the original array to avoid modifying it
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];  // Swap elements
+    }
+    return shuffled;
+}
+
 function fetchQuestions() {
     fetch('./questions.json')
     .then(response => response.json())
@@ -32,8 +42,13 @@ function startQuizWithSelection() {
     let snChoice = parseInt(document.getElementById('sn-count-input').value) || 0;
     let sfChoice = parseInt(document.getElementById('sf-count-input').value) || 0;
 
-    let snQuestions = questions.filter(q => q.category.code === "SN").slice(0, snChoice);
-    let sfQuestions = questions.filter(q => q.category.code === "SF").slice(0, sfChoice);
+    // Shuffle the entire SN and SF questions first
+    let snQuestionsAll = shuffleArray(questions.filter(q => q.category.code === "SN"));
+    let sfQuestionsAll = shuffleArray(questions.filter(q => q.category.code === "SF"));
+
+    // Then slice the required number of questions
+    let snQuestions = snQuestionsAll.slice(0, snChoice);
+    let sfQuestions = sfQuestionsAll.slice(0, sfChoice);
     
     selectedQuestions = [...snQuestions, ...sfQuestions];
     totalQuestions = selectedQuestions.length;
