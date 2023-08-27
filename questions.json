@@ -6308,6 +6308,10 @@
         "value": "4"
       }
     ],
+    "category": {
+      "code": "SF",
+      "description": "Safety"
+    },
     "correctAnswer": "3",
     "feedback": "Decrease your following distance when entering an expressway.",
     "id": "550315b52299d67b55f5823b",
