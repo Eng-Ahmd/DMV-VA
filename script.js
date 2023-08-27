@@ -1,4 +1,5 @@
 let questions = [];
+let selectedQuestions = [];
 let currentQuestionIndex = 0;
 let currentCategory = "SN";
 let shuffledQuestions = [];
@@ -22,24 +23,30 @@ function fetchQuestions() {
 }
 
 function startQuizWithSelection() {
-    const snChoice = parseInt(document.getElementById('sn-count-input').value);
-    const sfChoice = parseInt(document.getElementById('sf-count-input').value);
-    
-    questions = questions.filter(q => 
-        (q.category.code === "SN" && snChoice-- > 0) ||
-        (q.category.code === "SF" && sfChoice-- > 0)
-    );
+    const snChoice = parseInt(document.getElementById('sn-count-input').value) || 0;
+    const sfChoice = parseInt(document.getElementById('sf-count-input').value) || 0;
 
+    if (!snChoice && !sfChoice) {
+        alert("Please enter the count of questions for at least one category.");
+        return;
+    }
+    
+    let snQuestions = questions.filter(q => q.category.code === "SN").slice(0, snChoice);
+    let sfQuestions = questions.filter(q => q.category.code === "SF").slice(0, sfChoice);
+    
+    selectedQuestions = [...snQuestions, ...sfQuestions];
+    
     document.getElementById('category-selection').style.display = 'none';
     document.getElementById('question-container').style.display = 'block';
     startQuiz();
 }
 
 function startQuiz() {
-    const categoryQuestions = questions.filter(q => q.category && q.category.code === currentCategory);
+    const categoryQuestions = selectedQuestions.filter(q => q.category && q.category.code === currentCategory);
     shuffledQuestions = categoryQuestions.sort(() => 0.5 - Math.random());
     loadQuestion(shuffledQuestions[currentQuestionIndex]);
 }
+
 function loadQuestion(question) {
     document.getElementById('question-text').innerText = question.question;
     const answersDiv = document.getElementById('answers');
