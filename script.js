@@ -60,6 +60,13 @@ function startQuizWithSelection() {
         selectedQuestions.push(...sfQuestions);
     }
 
+    // Update the currentCategory based on the user's selection
+    if (snChoice === 0 && sfChoice > 0) {
+        currentCategory = "SF";
+    } else if (sfChoice === 0 && snChoice > 0) {
+        currentCategory = "SN";
+    } // if both are non-zero or both are zero, it doesn't matter, we can stick with the default
+
     totalQuestions = selectedQuestions.length; // Assuming you've declared totalQuestions somewhere globally
 
     document.getElementById('category-selection').style.display = 'none';
