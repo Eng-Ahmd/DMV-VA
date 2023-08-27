@@ -31,9 +31,6 @@ function startQuizWithSelection() {
         return;
     }
     
-    let snQuestions = questions.filter(q => q.category.code === "SN").slice(0, snChoice);
-    let sfQuestions = questions.filter(q => q.category.code === "SF").slice(0, sfChoice);
-    
     selectedQuestions = [...snQuestions, ...sfQuestions];
     
     document.getElementById('category-selection').style.display = 'none';
