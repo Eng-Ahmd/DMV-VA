@@ -5,6 +5,7 @@ let currentCategory = "SN";
 let shuffledQuestions = [];
 let correctAnswersCount = 0;
 let incorrectAnswersCount = 0;
+let totalQuestions = 0;
 
 function fetchQuestions() {
     fetch('./questions.json')
@@ -35,9 +36,10 @@ function startQuizWithSelection() {
     let sfQuestions = questions.filter(q => q.category.code === "SF").slice(0, sfChoice);
     
     selectedQuestions = [...snQuestions, ...sfQuestions];
-    
+    totalQuestions = selectedQuestions.length;
     document.getElementById('category-selection').style.display = 'none';
     document.getElementById('question-container').style.display = 'block';
+    
     startQuiz();
 }
 
@@ -48,6 +50,10 @@ function startQuiz() {
 }
 
 function loadQuestion(question) {
+    // Reset the color for the answers (2.1)
+    document.querySelectorAll('.answer-button').forEach(button => {
+        button.style.backgroundColor = '';
+    });
     document.getElementById('question-text').innerText = question.question;
     const answersDiv = document.getElementById('answers');
     answersDiv.innerHTML = ''; 
@@ -91,7 +97,8 @@ function checkAnswer() {
     const selectedValue = selectedAnswer.dataset.value;
     const currentQuestion = shuffledQuestions[currentQuestionIndex];
     const correctAnswerText = currentQuestion.answers.find(answer => answer.value === currentQuestion.correctAnswer).text;
-
+    const correctAnswerElement = document.querySelector(`[data-value='${currentQuestion.correctAnswer}']`); // 2.2: Find the correct answer element
+    
     if (selectedValue === currentQuestion.correctAnswer) {
         correctAnswersCount++;
         feedbackDiv.innerHTML = `<span style="color:green">${selectedAnswer.innerText}</span><br>${currentQuestion.feedback}`;
@@ -100,9 +107,12 @@ function checkAnswer() {
         incorrectAnswersCount++;
         feedbackDiv.innerHTML = `<span style="color:red">${selectedAnswer.innerText}</span><br><span style="color:green">${correctAnswerText}</span><br>${currentQuestion.feedback}`;
         selectedAnswer.style.backgroundColor = "lightred";
+        correctAnswerElement.style.backgroundColor = "lightgreen"; // 2.3: Highlight correct answer
     }
 
-    document.getElementById('score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}, Remaining: ${shuffledQuestions.length - (currentQuestionIndex + 1)}`;
+    const remainingQuestions = totalQuestions - (correctAnswersCount + incorrectAnswersCount); // 1.3: Calculate remaining questions
+
+    document.getElementById('score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}, Remaining: ${remainingQuestions}`;
     document.getElementById('submit-btn').style.display = 'none';
     document.getElementById('next-btn').style.display = 'block';
 }
