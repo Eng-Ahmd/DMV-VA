@@ -46,15 +46,25 @@ function startQuizWithSelection() {
     let snQuestionsAll = shuffleArray(questions.filter(q => q.category.code === "SN"));
     let sfQuestionsAll = shuffleArray(questions.filter(q => q.category.code === "SF"));
 
-    // Then slice the required number of questions
-    let snQuestions = snQuestionsAll.slice(0, snChoice);
-    let sfQuestions = sfQuestionsAll.slice(0, sfChoice);
-    
-    selectedQuestions = [...snQuestions, ...sfQuestions];
-    totalQuestions = selectedQuestions.length;
+    // Initialize an empty selectedQuestions array
+    selectedQuestions = [];
+
+    // Add questions to the selectedQuestions array based on user input, but only if the user choice is greater than 0
+    if(snChoice > 0) {
+        let snQuestions = snQuestionsAll.slice(0, snChoice);
+        selectedQuestions.push(...snQuestions);
+    }
+
+    if(sfChoice > 0) {
+        let sfQuestions = sfQuestionsAll.slice(0, sfChoice);
+        selectedQuestions.push(...sfQuestions);
+    }
+
+    totalQuestions = selectedQuestions.length; // Assuming you've declared totalQuestions somewhere globally
+
     document.getElementById('category-selection').style.display = 'none';
     document.getElementById('question-container').style.display = 'block';
-    
+
     startQuiz();
 }
 
