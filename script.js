@@ -106,7 +106,7 @@ function checkAnswer() {
     } else {
         incorrectAnswersCount++;
         feedbackDiv.innerHTML = `<span style="color:red">${selectedAnswer.innerText}</span><br><span style="color:green">${correctAnswerText}</span><br>${currentQuestion.feedback}`;
-        selectedAnswer.style.backgroundColor = "lightred";
+        selectedAnswer.style.backgroundColor = "lightcoral";
         correctAnswerElement.style.backgroundColor = "lightgreen"; // 2.3: Highlight correct answer
     }
 
