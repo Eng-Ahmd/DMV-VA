@@ -11,6 +11,11 @@ function fetchQuestions() {
     .then(response => response.json())
     .then(data => {
         questions = data;
+        questions.forEach((q, index) => {
+        if (!q.category || !q.category.code) {
+            console.error(`Issue found at index ${index}`, q);
+        }
+    });
 
         // Display available question counts
         document.getElementById('available-sn').innerText = questions.filter(q => q.category && q.category.code === "SN").length;
