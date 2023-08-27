@@ -8163,8 +8163,8 @@
       }
     ],
     "category": {
-      "code": "SF",
-      "description": "Safety"
+      "code": "SN",
+      "description": "Signs"
     },
     "correctAnswer": "4",
     "feedback": "This road sign warns you that traffic flows only in the direction of the arrow.",
