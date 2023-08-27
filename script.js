@@ -11,22 +11,28 @@ function fetchQuestions() {
     .then(data => {
         questions = data;
 
-        // Ask for number of questions for each category
-        let snCount = questions.filter(q => q.category && q.category.code === "SN").length;
-        let sfCount = questions.filter(q => q.category && q.category.code === "SF").length;
-        let snChoice = parseInt(prompt(`Enter the count of questions from Signs Category out of ${snCount} questions`));
-        let sfChoice = parseInt(prompt(`Enter the count of questions from SF Category out of ${sfCount} questions`));
+        // Display available question counts
+        document.getElementById('available-sn').innerText = questions.filter(q => q.category && q.category.code === "SN").length;
+        document.getElementById('available-sf').innerText = questions.filter(q => q.category && q.category.code === "SF").length;
 
-        questions = questions.filter(q => 
-            (q.category.code === "SN" && snChoice-- > 0) ||
-            (q.category.code === "SF" && sfChoice-- > 0)
-        );
-
-        startQuiz();
     })
     .catch(error => {
         console.error("Error fetching questions:", error);
     });
+}
+
+function startQuizWithSelection() {
+    const snChoice = parseInt(document.getElementById('sn-count-input').value);
+    const sfChoice = parseInt(document.getElementById('sf-count-input').value);
+    
+    questions = questions.filter(q => 
+        (q.category.code === "SN" && snChoice-- > 0) ||
+        (q.category.code === "SF" && sfChoice-- > 0)
+    );
+
+    document.getElementById('category-selection').style.display = 'none';
+    document.getElementById('question-container').style.display = 'block';
+    startQuiz();
 }
 
 function startQuiz() {
