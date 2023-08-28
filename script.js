@@ -255,4 +255,12 @@ function restartQuiz() {
     document.getElementById('feedback').innerHTML = '';
 }
 
+function endQuiz() {
+    // Calculate the total questions based on the number of questions that have been answered
+    totalQuestions = correctAnswersCount + incorrectAnswersCount;
+
+    // Display results
+    showResults();
+}
+
 fetchQuestions();
