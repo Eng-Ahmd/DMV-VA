@@ -6,6 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VA DMV Practice Exam</title>
     <style>
+         /* Base style for the logo container */
+        .logo-container {
+            position: relative;
+            padding: 5px;
+        }
+
+        /* Base style for the logo */
+        .site-logo {
+            width: 100px;   /* Default width for larger screens */
+            height: auto;   /* Maintains the aspect ratio */
+        }
+
+        /* Media query for smaller screens like mobile phones */
+        @media only screen and (max-width: 768px) {
+            .site-logo {
+                width: 50px;   /* Smaller width for mobile screens */
+            }
+        }
         #score {
             position: absolute;
             top: 10px;
@@ -75,7 +93,9 @@
 </head>
 
 <body>
-    
+    <div class="logo-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Seal_of_Virginia.svg" alt="Virginia Seal Logo" class="site-logo">
+    </div>
     <h1>Virginia DMV Practice Exam</h1>
     <!-- Category Question Count Input -->
     <div id="category-selection">
