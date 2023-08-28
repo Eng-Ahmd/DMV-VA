@@ -176,24 +176,50 @@ function nextQuestion() {
 }
 
 function showResults() {
-    const resultsContainer = document.getElementById('results-container');
-    const wrongAnswersContainer = document.getElementById('wrong-answers');
-    
-    document.getElementById('question-container').style.display = 'none';
-    resultsContainer.style.display = 'block';
-    
-    document.getElementById('final-score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}`;
+    hideQuestionContainer();
+    displayFinalScore();
+    displayCorrectPercentage();
+    displayWrongAnswers();
+}
 
-    wrongAnswersContainer.innerHTML = '';
+function hideQuestionContainer() {
+    document.getElementById('question-container').style.display = 'none';
+    document.getElementById('results-container').style.display = 'block';
+}
+
+function displayFinalScore() {
+    document.getElementById('final-score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}`;
+}
+
+function displayCorrectPercentage() {
+    // Calculate the percentage of correct answers.
+    let correctPercentage = (correctAnswersCount / totalQuestions) * 100;
+
+    // Adjust the width of the colored bar element.
+    const correctPercentageBar = document.getElementById('correct-percentage-bar');
+    correctPercentageBar.style.width = `${correctPercentage}%`;
+
+    // Display the percentage as text to the user.
+    document.getElementById('score').innerText = `Your score: ${correctPercentage.toFixed(2)}% correct`;
+}
+
+function displayWrongAnswers() {
+    const wrongAnswersContainer = document.getElementById('wrong-answers');
+    wrongAnswersContainer.innerHTML = ''; // Clearing the container
+
+    // Filter out the correct answers and loop over the wrong ones
     answerHistory.filter(a => !a.isCorrect).forEach(answer => {
         let listItem = document.createElement('div');
+        listItem.className = 'wrong-answer-item';  // Consider adding a class for styling
+
         listItem.innerHTML = `
             <strong>Question:</strong> ${answer.question} <br>
-            <span style="color:red">Your Answer:</span> ${answer.selectedAnswer} <br>
-            <span style="color:green">Correct Answer:</span> ${answer.correctAnswer} <br>
+            <span style="color:red" class="selected-answer">Your Answer: ${answer.selectedAnswer}</span> <br>
+            <span style="color:green" class="correct-answer">Correct Answer: ${answer.correctAnswer}</span> <br>
             Feedback: ${answer.feedback} <br><hr>
         `;
         wrongAnswersContainer.appendChild(listItem);
     });
 }
+
 fetchQuestions();
