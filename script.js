@@ -176,6 +176,7 @@ function nextQuestion() {
 }
 
 function showResults() {
+    console.log("showResults function called"); // ADD THIS LINE
     hideQuestionContainer();
     displayFinalScore();
     displayCorrectPercentage();
