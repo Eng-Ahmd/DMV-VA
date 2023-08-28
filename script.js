@@ -184,15 +184,18 @@ function showResults() {
 }
 
 function hideQuestionContainer() {
+    console.log("Hiding question container");  // ADD THIS LINE
     document.getElementById('question-container').style.display = 'none';
     document.getElementById('results-container').style.display = 'block';
 }
 
 function displayFinalScore() {
+    console.log("Displaying final score"); // ADD THIS LINE
     document.getElementById('final-score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}`;
 }
 
 function displayCorrectPercentage() {
+    console.log("Displaying correct percentage"); // ADD THIS LINE
     // Calculate the percentage of correct answers.
     let correctPercentage = (correctAnswersCount / totalQuestions) * 100;
 
@@ -201,17 +204,17 @@ function displayCorrectPercentage() {
     correctPercentageBar.style.width = `${correctPercentage}%`;
 
     // Display the percentage as text to the user.
-    document.getElementById('score').innerText = `Your score: ${correctPercentage.toFixed(2)}% correct`;
+    document.getElementById('score').innerText = `Your score: ${correctPercentage.toFixed(2)}% `;
 }
 
 function displayWrongAnswers() {
+    console.log("Displaying wrong answers"); // ADD THIS LINE
     const wrongAnswersContainer = document.getElementById('wrong-answers');
-    wrongAnswersContainer.innerHTML = ''; // Clearing the container
+    wrongAnswersContainer.innerHTML = ''; 
 
-    // Filter out the correct answers and loop over the wrong ones
     answerHistory.filter(a => !a.isCorrect).forEach(answer => {
         let listItem = document.createElement('div');
-        listItem.className = 'wrong-answer-item';  // Consider adding a class for styling
+        listItem.className = 'wrong-answer-item';
 
         listItem.innerHTML = `
             <strong>Question:</strong> ${answer.question} <br>
