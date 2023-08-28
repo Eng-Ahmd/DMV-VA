@@ -87,7 +87,7 @@ function loadQuestion(question) {
     document.querySelectorAll('.answer-button').forEach(button => {
         button.style.backgroundColor = '';
     });
-    document.getElementById('question-text').innerText = question.question;
+    document.getElementById('question-text').innerText = "Q. " + question.question;
     const answersDiv = document.getElementById('answers');
     answersDiv.innerHTML = ''; 
 
