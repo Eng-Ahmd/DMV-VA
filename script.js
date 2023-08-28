@@ -233,6 +233,7 @@ function restartQuiz() {
     answerHistory = [];
 
     // Show category selection and hide results container
+    document.getElementById('score').innerText = '';
     document.getElementById('category-selection').style.display = 'block';
     document.getElementById('results-container').style.display = 'none';
     document.getElementById('feedback').innerHTML = '';
