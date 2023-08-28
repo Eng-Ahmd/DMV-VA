@@ -6,6 +6,7 @@ let shuffledQuestions = [];
 let correctAnswersCount = 0;
 let incorrectAnswersCount = 0;
 let totalQuestions = 0;
+let answerHistory = [];
 
 
 function shuffleArray(array) {
@@ -147,18 +148,52 @@ function checkAnswer() {
     document.getElementById('score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}, Remaining: ${remainingQuestions}`;
     document.getElementById('submit-btn').style.display = 'none';
     document.getElementById('next-btn').style.display = 'block';
+    answerHistory.push({
+    question: currentQuestion.question,
+    selectedAnswer: selectedAnswer.innerText,
+    correctAnswer: correctAnswerText,
+    feedback: currentQuestion.feedback,
+    isCorrect: selectedValue === currentQuestion.correctAnswer
+});
 }
 
 function nextQuestion() {
     currentQuestionIndex++;
+    
+    // Check if the quiz has reached its end
     if (currentQuestionIndex >= shuffledQuestions.length) {
-        currentQuestionIndex = 0;
-        currentCategory = currentCategory === "SN" ? "SF" : "SN";
-        startQuiz();
-    } else {
-        loadQuestion(shuffledQuestions[currentQuestionIndex]);
+        showResults();
+        return;
     }
+
+    // If the current category has no more questions, switch to the other category
+    if (!shuffledQuestions.some(q => q.category.code === currentCategory)) {
+        currentCategory = currentCategory === "SN" ? "SF" : "SN";
+    }
+
+    loadQuestion(shuffledQuestions[currentQuestionIndex]);
     document.getElementById('feedback').innerHTML = '';
 }
 
+function showResults() {
+    const resultsContainer = document.getElementById('results-container');
+    const wrongAnswersContainer = document.getElementById('wrong-answers');
+    
+    document.getElementById('question-container').style.display = 'none';
+    resultsContainer.style.display = 'block';
+    
+    document.getElementById('final-score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}`;
+
+    wrongAnswersContainer.innerHTML = '';
+    answerHistory.filter(a => !a.isCorrect).forEach(answer => {
+        let listItem = document.createElement('div');
+        listItem.innerHTML = `
+            <strong>Question:</strong> ${answer.question} <br>
+            <span style="color:red">Your Answer:</span> ${answer.selectedAnswer} <br>
+            <span style="color:green">Correct Answer:</span> ${answer.correctAnswer} <br>
+            Feedback: ${answer.feedback} <br><hr>
+        `;
+        wrongAnswersContainer.appendChild(listItem);
+    });
+}
 fetchQuestions();
