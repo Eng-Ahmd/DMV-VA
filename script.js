@@ -91,6 +91,7 @@ function startQuiz() {
 }
 
 function loadQuestion(question) {
+    document.getElementById('feedback').innerHTML = '';  // Clear previous feedback
     // Reset the color for the answers (2.1)
     document.querySelectorAll('.answer-button').forEach(button => {
         button.style.backgroundColor = '';
