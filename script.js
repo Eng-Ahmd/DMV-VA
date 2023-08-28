@@ -213,8 +213,11 @@ function displayCorrectPercentage() {
     correctPercentageBar.style.width = `${correctPercentage}%`;
     
     // Display the percentage as text to the user.
-    // document.getElementById('score').innerText = `Congratulations ${studentName} Your score: ${correctPercentage.toFixed(2)}% `;
-    document.getElementById('percentage-text').innerText = `Congratulations ${studentName} Your score: ${correctPercentage.toFixed(2)}%`;
+    let message = correctPercentage < 80 
+        ? `Good job, ${studentName}! You can do better. Please put in some more effort and study again.` 
+        : `Congratulations, ${studentName}! Your score: ${correctPercentage.toFixed(2)}%`;
+    
+    document.getElementById('percentage-text').innerText = message;
 }
 
 function displayWrongAnswers() {
