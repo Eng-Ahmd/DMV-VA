@@ -160,15 +160,19 @@ function checkAnswer() {
 function nextQuestion() {
     currentQuestionIndex++;
     
+    const categoryQuestionsRemaining = shuffledQuestions.slice(currentQuestionIndex).some(q => q.category.code === currentCategory);
+   
+    // Check if there are no more questions of the current category.
+    if (!categoryQuestionsRemaining) {
+        currentCategory = currentCategory === "SN" ? "SF" : "SN";
+        startQuiz();  // This will reset the shuffledQuestions and index for the new category
+        return;  // We return here because startQuiz will set up the next question for us
+    }
+    
     // Check if the quiz has reached its end
     if (currentQuestionIndex >= shuffledQuestions.length) {
         showResults();
         return;
-    }
-
-    // If the current category has no more questions, switch to the other category
-    if (!shuffledQuestions.some(q => q.category.code === currentCategory)) {
-        currentCategory = currentCategory === "SN" ? "SF" : "SN";
     }
 
     loadQuestion(shuffledQuestions[currentQuestionIndex]);
@@ -233,7 +237,7 @@ function restartQuiz() {
     answerHistory = [];
 
     // Show category selection and hide results container
-    document.getElementById('score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}, Remaining: ${remainingQuestions}`;
+    document.getElementById('score').innerText = `Correct: ${correctAnswersCount}, Incorrect: ${incorrectAnswersCount}, Remaining: ${totalQuestions}`;
     document.getElementById('category-selection').style.display = 'block';
     document.getElementById('results-container').style.display = 'none';
     document.getElementById('feedback').innerHTML = '';
