@@ -79,6 +79,14 @@ function startQuizWithSelection() {
 function startQuiz() {
     const categoryQuestions = selectedQuestions.filter(q => q.category && q.category.code === currentCategory);
     shuffledQuestions = categoryQuestions.sort(() => 0.5 - Math.random());
+
+    // Check if there are any questions in shuffledQuestions
+    if (!shuffledQuestions.length) {
+        // No questions for the category, go directly to results or show some message
+        showResults();
+        return;
+    }
+    
     loadQuestion(shuffledQuestions[currentQuestionIndex]);
 }
 
@@ -160,19 +168,17 @@ function checkAnswer() {
 function nextQuestion() {
     currentQuestionIndex++;
     
-    const categoryQuestionsRemaining = shuffledQuestions.slice(currentQuestionIndex).some(q => q.category.code === currentCategory);
-   
-    // Check if there are no more questions of the current category.
-    if (!categoryQuestionsRemaining) {
-        currentCategory = currentCategory === "SN" ? "SF" : "SN";
-        currentQuestionIndex = 0;  // <-- Reset the index
-        startQuiz();  // This will reset the shuffledQuestions and index for the new category
-        return;  // We return here because startQuiz will set up the next question for us
-    }
-    
-    // Check if the quiz has reached its end
+    // Check if the current index exceeds the available questions
     if (currentQuestionIndex >= shuffledQuestions.length) {
-        showResults();
+        // If it's the last category, then go directly to results
+        if(currentCategory === "SF") {
+            showResults();
+            return;
+        } 
+        // Switch category
+        currentCategory = currentCategory === "SN" ? "SF" : "SN";
+        currentQuestionIndex = 0;  // Reset the index
+        startQuiz();  // This will reset the shuffledQuestions and index for the new category
         return;
     }
 
