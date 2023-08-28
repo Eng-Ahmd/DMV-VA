@@ -7,6 +7,7 @@ let correctAnswersCount = 0;
 let incorrectAnswersCount = 0;
 let totalQuestions = 0;
 let answerHistory = [];
+let studentName = '';
 
 
 function shuffleArray(array) {
@@ -42,7 +43,7 @@ function fetchQuestions() {
 function startQuizWithSelection() {
     let snChoice = parseInt(document.getElementById('sn-count-input').value) || 0;
     let sfChoice = parseInt(document.getElementById('sf-count-input').value) || 0;
-
+    studentName = document.getElementById('st-name-input').value
     // Shuffle the entire SN and SF questions first
     let snQuestionsAll = shuffleArray(questions.filter(q => q.category.code === "SN"));
     let sfQuestionsAll = shuffleArray(questions.filter(q => q.category.code === "SF"));
@@ -212,7 +213,7 @@ function displayCorrectPercentage() {
     correctPercentageBar.style.width = `${correctPercentage}%`;
     
     // Display the percentage as text to the user.
-    document.getElementById('score').innerText = `Your score: ${correctPercentage.toFixed(2)}% `;
+    document.getElementById('score').innerText = `Congratulations ${studentName} Your score: ${correctPercentage.toFixed(2)}% `;
     document.getElementById('percentage-text').innerText = `Your score: ${correctPercentage.toFixed(2)}%`;
 }
 
