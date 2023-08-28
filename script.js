@@ -198,9 +198,10 @@ function displayCorrectPercentage() {
     // Adjust the width of the colored bar element.
     const correctPercentageBar = document.getElementById('correct-percentage-bar');
     correctPercentageBar.style.width = `${correctPercentage}%`;
-
+    
     // Display the percentage as text to the user.
     document.getElementById('score').innerText = `Your score: ${correctPercentage.toFixed(2)}% `;
+    document.getElementById('percentage-text').innerText = `Your score: ${correctPercentage.toFixed(2)}%`;
 }
 
 function displayWrongAnswers() {
@@ -219,6 +220,21 @@ function displayWrongAnswers() {
         `;
         wrongAnswersContainer.appendChild(listItem);
     });
+}
+function restartQuiz() {
+    // Reset global variables
+    selectedQuestions = [];
+    currentQuestionIndex = 0;
+    currentCategory = "SN";
+    shuffledQuestions = [];
+    correctAnswersCount = 0;
+    incorrectAnswersCount = 0;
+    totalQuestions = 0;
+    answerHistory = [];
+
+    // Show category selection and hide results container
+    document.getElementById('category-selection').style.display = 'block';
+    document.getElementById('results-container').style.display = 'none';
 }
 
 fetchQuestions();
