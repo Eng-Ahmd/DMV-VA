@@ -165,6 +165,7 @@ function nextQuestion() {
     // Check if there are no more questions of the current category.
     if (!categoryQuestionsRemaining) {
         currentCategory = currentCategory === "SN" ? "SF" : "SN";
+        currentQuestionIndex = 0;  // <-- Reset the index
         startQuiz();  // This will reset the shuffledQuestions and index for the new category
         return;  // We return here because startQuiz will set up the next question for us
     }
