@@ -235,6 +235,7 @@ function restartQuiz() {
     // Show category selection and hide results container
     document.getElementById('category-selection').style.display = 'block';
     document.getElementById('results-container').style.display = 'none';
+    document.getElementById(feedback).style.display = 'none';
 }
 
 fetchQuestions();
