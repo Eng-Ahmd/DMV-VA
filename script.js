@@ -181,9 +181,9 @@ function nextQuestion() {
         startQuiz();  // This will reset the shuffledQuestions and index for the new category
         return;
     }
-
-    loadQuestion(shuffledQuestions[currentQuestionIndex]);
+    
     document.getElementById('feedback').innerHTML = '';
+    loadQuestion(shuffledQuestions[currentQuestionIndex]);
 }
 
 function showResults() {
