@@ -61,12 +61,17 @@
         #submit-btn:hover, #next-btn:hover {
             background-color: #0056b3;
         }
+        h1 {
+            font-size: 24px; /* Reducing the font size. Adjust as needed. */
+            color: brown;
+            text-align: center;
+        }
 
     </style>    
 </head>
 
 <body>
-    <div id="score">Score: 0</div>
+    
     <h1>Virginia DMV Practice Exam</h1>
     <!-- Category Question Count Input -->
     <div id="category-selection">
@@ -83,6 +88,7 @@
         <button id="start-quiz" onclick="startQuizWithSelection()">Start Quiz</button>
     </div>
     <div id="question-container">
+        <div id="score">Score: 0</div>
         <img id="question-image" src="" alt="Question Image" width="300" style="display: none;">
         <h2 id="question-text"></h2>
         <div id="answers">
@@ -97,6 +103,7 @@
             <div id="percentage-container" style="border: 1px solid #000; width: 100%; height: 30px; background-color: lightcoral;">
                 <div id="correct-percentage-bar" style="height: 100%; background-color: lightgreen;"></div>
             </div>
+            <p id="percentage-text"></p> <!-- Added this to display the correct percentage -->
         </div>
     </div>
     <div id="feedback"></div>
